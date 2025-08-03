@@ -26,7 +26,7 @@ export default function GuessInput({ handleSubmitGuess, gameStatus }) {
           type="text"
           required
           disabled={gameStatus !== 'running'}
-          autoComplete={`false`}
+          autoComplete="off"
           minLength={5}
           maxLength={5}
           pattern="[A-Z]{5}"

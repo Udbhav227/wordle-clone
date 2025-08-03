@@ -7,12 +7,13 @@ import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 
 import GuessInput from "./GuessInput";
 import GuessResults from "./GuessResults";
+import GameOverBanner from "../GameOverBanner";
 
 const answer = sample(WORDS);
 console.info({ answer });
 
 function Game() {
-  const[gameStatus, setGameStatus] = React.useState('running');
+  const [gameStatus, setGameStatus] = React.useState("running");
   const [guesses, setGuesses] = React.useState([]);
 
   function handleSubmitGuess(tentativeGuess) {
@@ -20,9 +21,9 @@ function Game() {
     setGuesses(nextGuesses);
 
     if (tentativeGuess === answer) {
-      setGameStatus('win')
+      setGameStatus("won");
     } else if (nextGuesses.length >= NUM_OF_GUESSES_ALLOWED) {
-      setGameStatus('lost')
+      setGameStatus("lost");
     }
   }
 
@@ -30,7 +31,17 @@ function Game() {
     <>
       {/* <p style={{color : "white"}}>{`Game Status :  ${gameStatus}`}</p> */}
       <GuessResults guesses={guesses} answer={answer} />
-      <GuessInput gameStatus={gameStatus} handleSubmitGuess={handleSubmitGuess} />
+      <GuessInput
+        gameStatus={gameStatus}
+        handleSubmitGuess={handleSubmitGuess}
+      />
+      {gameStatus !== "running" && (
+        <GameOverBanner
+          gameStatus={gameStatus}
+          numOfGuesses={guesses.length}
+          answer={answer}
+        ></GameOverBanner>
+      )}
     </>
   );
 }
