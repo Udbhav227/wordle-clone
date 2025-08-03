@@ -25,6 +25,7 @@ export default function GuessInput({ handleSubmitGuess }) {
           id="guess-input"
           type="text"
           required
+          autoComplete={`false`}
           minLength={5}
           maxLength={5}
           pattern="[A-Z]{5}"
