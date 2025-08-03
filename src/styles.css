@@ -52,16 +52,27 @@ button {
 }
 
 header {
+  position: relative;
   display: flex;
+  align-items: center;
+  justify-content: center;
   height: var(--header-height);
   border-bottom: 1px solid var(--color-gray-700);
   color: var(--color-gray-700);
+  padding: 0;
 }
 
 header .side {
+  position: absolute;
+  top: 0;
+  bottom: 0;
   width: var(--header-height);
   display: grid;
   place-content: center;
+}
+
+header .side.right {
+  right: 0;
 }
 
 h1 {
@@ -190,6 +201,7 @@ h1 {
   animation: slideUp 750ms cubic-bezier(0, 0.72, 0.24, 1.02);
   border-radius: 4px 4px 0px 0px;
   will-change: transform;
+  z-index: 10;
 }
 
 .happy.banner {
@@ -306,4 +318,204 @@ h1 {
 
 .cell .letter {
   display: block;
+}
+
+/*
+  How to play modal
+*/
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal-content {
+  background-color: #121213;
+  color: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-content p, .modal-content h3, .modal-content ul {
+  margin-bottom: 1em;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.example-guess {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1em;
+}
+
+.modal-content .cell {
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+}
+
+header .side button {
+  background: transparent;
+  border: none;
+  color: var(--color-gray-700);
+  font-size: 1.5rem;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal specific styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.modal-content {
+  background-color: #121213;
+  color: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+
+  /* Animation properties */
+  transform-origin: var(--start-left) var(--start-top);
+  animation: popIn 0.3s ease-out forwards;
+}
+
+/* Keyframes for the animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    transform: translate(calc(var(--start-left) - 50vw), calc(var(--start-top) - 50vh)) scale(0.1);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.modal-overlay.closing {
+  animation: fadeOut 0.3s ease-in forwards;
+}
+
+.modal-content {
+  background-color: #121213;
+  color: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+  transform-origin: var(--start-left) var(--start-top);
+  animation: popIn 0.3s ease-out forwards;
+}
+
+.modal-content.closing {
+  animation: popOut 0.3s ease-in forwards;
+}
+
+/* Keyframes for the animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes popIn {
+  from {
+    transform: translate(calc(var(--start-left) - 50vw), calc(var(--start-top) - 50vh)) scale(0.1);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes popOut {
+  from {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(calc(var(--start-left) - 50vw), calc(var(--start-top) - 50vh)) scale(0.1);
+    opacity: 0;
+  }
 }
