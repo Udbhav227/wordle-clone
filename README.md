@@ -9,7 +9,7 @@ The name "Verdle" is a playful twist on "Wordle." "Ver" means "green" in French,
 ## Screenshots
 
 ### Game Interface
-![Game Screenshot](./screenshots/game.png)
+![Game Screenshot](./screenshots/verdle-gameplay.gif)
 
 ### How to Play
 ![How to Play Screenshot](./screenshots/how-to-play.png)
