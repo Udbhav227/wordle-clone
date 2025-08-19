@@ -9,7 +9,7 @@ import GuessResults from './GuessResults';
 import Keyboard from '../Keyboard';
 import GameOverBanner from '../GameOverBanner';
 
-const answer = sample(WORDS);
+const answer = sample(WORDS).toUpperCase();
 console.info({ answer });
 
 function Game() {

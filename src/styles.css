@@ -98,11 +98,11 @@ h1 {
   max-width: min(440px, 58vh, 90%);
   min-width: 360px;
   max-height: 700px;
-  padding: .25rem;
+  padding: .5rem;
 }
 
 .guess-results {
-  padding: 1rem;
+  padding: .75rem;
 }
 
 .guess {
