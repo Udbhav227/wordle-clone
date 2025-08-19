@@ -9,6 +9,7 @@ export function useWordle() {
   const [guesses, setGuesses] = React.useState([]);
   const [tentativeGuess, setTentativeGuess] = React.useState('');
   const [gameStatus, setGameStatus] = React.useState('running');
+  const [toastMessage, setToastMessage] = React.useState('');
 
   React.useEffect(() => {
     console.info(`THE ANSWER IS: ${answer}`);
@@ -26,7 +27,7 @@ export function useWordle() {
     }
   }, [guesses, answer]);
 
-  const handleKeyPress = React. useCallback(
+  const handleKeyPress = React.useCallback(
     (key) => {
       if (gameStatus !== 'running') {
         return;
@@ -34,12 +35,12 @@ export function useWordle() {
 
       if (key === 'ENTER') {
         if (tentativeGuess.length !== 5) {
-          window.alert('Not enough letters!');
+          setToastMessage('Not enough letters!');
           return;
         }
 
-        if (!WORDS.includes(tentativeGuess)) {
-          window.alert('Not in word list!');
+        if (!WORDS.includes(tentativeGuess.toUpperCase())) {
+          setToastMessage('Not in word list!');
           return;
         }
         
@@ -72,6 +73,8 @@ export function useWordle() {
     () => guesses.map((guess) => checkGuess(guess, answer)),
     [guesses, answer]
   );
+  
+  const clearToast = () => setToastMessage('');
 
   return {
     gameStatus,
@@ -79,7 +82,9 @@ export function useWordle() {
     tentativeGuess,
     checkedGuesses,
     answer,
+    toastMessage,
     handleKeyPress,
     handleRestart,
+    clearToast,
   };
 }

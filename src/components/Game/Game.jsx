@@ -5,6 +5,7 @@ import { useWordle } from '../../hooks/useWordle';
 import GuessResults from './GuessResults';
 import Keyboard from '../Keyboard';
 import GameOverBanner from '../GameOverBanner';
+import Toast from '../Toast';
 
 function Game() {
   const {
@@ -13,8 +14,10 @@ function Game() {
     tentativeGuess,
     checkedGuesses,
     answer,
+    toastMessage,
     handleKeyPress,
     handleRestart,
+    clearToast,
   } = useWordle();
   
   const [gameKey, setGameKey] = React.useState(1);
@@ -52,14 +55,20 @@ function Game() {
   const doRestart = () => {
     setIsBannerClosing(true);
     setTimeout(() => {
-      handleRestart();
-      setGameKey(prevKey => prevKey + 1);
+    handleRestart();
+    setGameKey(prevKey => prevKey + 1);
       setIsBannerClosing(false);
     }, 500); 
   }
 
   return (
     <React.Fragment key={gameKey}>
+      {toastMessage && (
+        <Toast
+          message={toastMessage}
+          handleClose={clearToast}
+        />
+      )}
       <GuessResults
         guesses={checkedGuesses}
         tentativeGuess={tentativeGuess}
@@ -75,7 +84,7 @@ function Game() {
           numOfGuesses={guesses.length}
           answer={answer}
           handleRestart={doRestart}
-          isClosing={isBannerClosing}
+        isClosing={isBannerClosing}
         />
       )}
     </React.Fragment>
