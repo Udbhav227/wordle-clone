@@ -1,40 +1,113 @@
-import React from "react";
+import React from 'react';
 
-export default function GuessInput({ handleSubmitGuess, gameStatus }) {
-  const [tentativeGuess, setTentativeGuess] = React.useState("");
+import { sample } from '../../utils';
+import { WORDS } from '../../data';
+import { NUM_OF_GUESSES_ALLOWED } from '../../constants';
+import { checkGuess } from '../../game-helpers';
 
-  function handleSubmit(event) {
-    event.preventDefault();
+import GuessResults from './GuessResults';
+import Keyboard from '../Keyboard'; // We will create this next
+import GameOverBanner from '../GameOverBanner';
 
-    if (tentativeGuess.length != 5) {
-      window.alert("Please enter exactly 5 characters. 💖");
+const answer = sample(WORDS);
+console.info({ answer });
+
+function Game() {
+  const [gameStatus, setGameStatus] = React.useState('running');
+  const [guesses, setGuesses] = React.useState([]);
+  const [tentativeGuess, setTentativeGuess] = React.useState('');
+
+  function handleSubmitGuess() {
+    if (tentativeGuess.length !== 5) {
+      window.alert('Not enough letters!');
+      return;
     }
 
-    console.log({ tentativeGuess });
+    // TODO: Validate against word list
 
-    handleSubmitGuess(tentativeGuess);
+    const nextGuesses = [...guesses, tentativeGuess];
+    setGuesses(nextGuesses);
+    setTentativeGuess('');
 
-    setTentativeGuess("");
+    if (tentativeGuess.toUpperCase() === answer) {
+      setGameStatus('won');
+    } else if (nextGuesses.length >= NUM_OF_GUESSES_ALLOWED) {
+      setGameStatus('lost');
+    }
   }
+
+  function handleKeyPress(key) {
+    if (gameStatus !== 'running') {
+      return;
+    }
+    if (key === 'BACKSPACE') {
+      setTentativeGuess((prev) => prev.slice(0, -1));
+      return;
+    }
+    if (key === 'ENTER') {
+      handleSubmitGuess();
+      return;
+    }
+    if (tentativeGuess.length < 5) {
+      setTentativeGuess((prev) => prev + key);
+    }
+  }
+
+  // Allow physical keyboard input as well
+  React.useEffect(() => {
+    function handleKeyDown(event) {
+      const { key } = event;
+
+      if (gameStatus !== 'running') {
+        return;
+      }
+
+      if (key === 'Enter') {
+        handleSubmitGuess();
+        return;
+      }
+      if (key === 'Backspace') {
+        setTentativeGuess((prev) => prev.slice(0, -1));
+        return;
+      }
+      if (/^[a-zA-Z]$/.test(key)) {
+        if (tentativeGuess.length < 5) {
+          setTentativeGuess((prev) => prev + key.toUpperCase());
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [tentativeGuess, gameStatus, guesses]);
+
+  const checkedGuesses = React.useMemo(
+    () => guesses.map((guess) => checkGuess(guess, answer)),
+    [guesses, answer]
+  );
 
   return (
     <>
-      <form className="guess-input-wrapper" onSubmit={handleSubmit}>
-        <label htmlFor="guess-input">Enter guess:</label>
-        <input
-          id="guess-input"
-          type="text"
-          required
-          disabled={gameStatus !== 'running'}
-          autoComplete="off"
-          minLength={5}
-          maxLength={5}
-          pattern="[A-Z]{5}"
-          title="5 letter word"
-          value={tentativeGuess}
-          onChange={(e) => setTentativeGuess(e.target.value.toUpperCase())}
+      <GuessResults
+        guesses={checkedGuesses}
+        tentativeGuess={tentativeGuess}
+      />
+      <Keyboard
+        checkedGuesses={checkedGuesses}
+        handleKeyPress={handleKeyPress}
+      />
+      {gameStatus !== 'running' && (
+        <GameOverBanner
+          gameStatus={gameStatus}
+          numOfGuesses={guesses.length}
+          answer={answer}
         />
-      </form>
+      )}
     </>
   );
 }
+
+export default Game;

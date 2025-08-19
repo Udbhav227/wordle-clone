@@ -1,49 +1,57 @@
-import React from "react";
-
-import { range } from "../../utils";
-import { checkGuess } from "../../game-helpers";
+import React from 'react';
+import { range } from '../../utils';
 
 function Cell({ letter, status, isFlipped }) {
-  const className = `cell ${isFlipped ? "flipped" : ""}`;
+  const className = `cell ${isFlipped ? 'flipped' : ''}`;
   return (
-    <span className={className}>
-      <div className="face front">
-        <span className="letter">{letter}</span>
-      </div>
-      <div className={`face back ${status}`}>
-        <span className="letter">{letter}</span>
-      </div>
-    </span>
+    <div className={className}>
+      <div className="face front">{letter}</div>
+      <div className={`face back ${status}`}>{letter}</div>
+    </div>
   );
 }
 
-export default function Guess({ value, answer }) {
-  const [result, setResult] = React.useState(null);
+function Guess({ value, isSubmitted }) {
   const [flipped, setFlipped] = React.useState([]);
 
   React.useEffect(() => {
-    if (value) {
-      const newResult = checkGuess(value, answer);
-      setResult(newResult);
+    if (!isSubmitted) return;
 
-      newResult.forEach((_, index) => {
+    const flipTiles = () => {
+      range(5).forEach((index) => {
         setTimeout(() => {
-          setFlipped((prevFlipped) => [...prevFlipped, index]);
+          setFlipped((prev) => [...prev, index]);
         }, index * 300);
       });
-    }
-  }, [value, answer]);
+    };
+
+    flipTiles();
+  }, [isSubmitted]);
+
+  if (isSubmitted) {
+    return (
+      <p className="guess">
+        {value.map(({ letter, status }, index) => (
+          <Cell
+            key={index}
+            letter={letter}
+            status={status}
+            isFlipped={flipped.includes(index)}
+          />
+        ))}
+      </p>
+    );
+  }
 
   return (
     <p className="guess">
       {range(5).map((num) => (
-        <Cell
-          letter={result ? result[num].letter : undefined}
-          status={result ? result[num].status : undefined}
-          isFlipped={flipped.includes(num)}
-          key={num}
-        ></Cell>
+        <div className="cell" key={num}>
+          {value ? value[num] : undefined}
+        </div>
       ))}
     </p>
   );
 }
+
+export default Guess;
