@@ -95,14 +95,14 @@ h1 {
 
   margin: 0 auto;
   width: 100%;
-  max-width: min(440px, 58vh, 100%);
+  max-width: min(440px, 58vh, 90%);
   min-width: 360px;
   max-height: 700px;
-  padding: 1rem;
+  padding: .25rem;
 }
 
 .guess-results {
-  padding: .5rem;
+  padding: 1rem;
 }
 
 .guess {
@@ -199,7 +199,7 @@ h1 {
 }
 
 .key-spacer-half {
-  flex: 0.5;
+  flex: .3;
 }
 
 .keyboard-row {
@@ -219,13 +219,13 @@ h1 {
   display: grid;
   place-content: center;
   flex: 1;
-  height: 58px;
+  height: 52px;
   transition: background-color 0.3s ease;
+  max-width: 40px;
 }
 
 .key.special-key {
-  flex: 1.5;
-  font-size: 0.8rem;
+  flex: 1.25;
 }
 
 .key:hover {
