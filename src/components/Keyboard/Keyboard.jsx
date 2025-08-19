@@ -3,7 +3,7 @@ import React from 'react';
 const KEYBOARD_ROWS = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-  ['✅', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BACKSPACE'],
+  ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BACKSPACE'],
 ];
 
 function getLetterStatuses(checkedGuesses) {
@@ -60,7 +60,7 @@ function Keyboard({ checkedGuesses, handleKeyPress }) {
                 key={key}
                 onClick={() => handleKeyPress(key)}
               >
-                {key === 'BACKSPACE' ? '⌫' : key}
+                {key === 'BACKSPACE' ? '⌫' : key === 'ENTER' ? '✅' : key}
               </button>
             );
           })}
