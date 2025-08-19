@@ -1,7 +1,6 @@
 import React from 'react';
 import { range } from '../../utils';
 
-// The Cell component is fine as is.
 function Cell({ letter, status, isFlipped }) {
   const className = `cell ${isFlipped ? 'flipped' : ''}`;
   return (
@@ -32,11 +31,9 @@ function Guess({ value, isSubmitted }) {
     flipTiles();
   }, [isSubmitted]);
 
-  // This block is for SUBMITTED guesses.
-  // 'value' is an array of objects: [{ letter, status }, ...]
+
   if (isSubmitted) {
     return (
-      // FIX 1: Changed <p> to <div> to allow nesting block elements.
       <div className="guess">
         {value.map(({ letter, status }, index) => (
           <Cell

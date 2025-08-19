@@ -9,16 +9,23 @@ const Confetti = () => {
       {range(150).map((i) => (
         <div
           key={i}
-          className="confetti"
+          className="confetti-wrapper"
           style={{
-            '--x': `${random(-200, 200)}px`,
-            '--y': `${random(-200, 0)}px`,
-            '--angle': `${random(0, 360)}deg`,
-            '--hue': `${random(0, 360)}`,
-            '--delay': `${random(0, 1000)}ms`,
-            '--duration': `${random(2000, 5000)}ms`,
+            '--x-start': `${random(0, 100)}vw`,
+            '--fall-duration': `${random(4, 8)}s`,
+            '--delay': `${random(0, 5)}s`,
           }}
-        />
+        >
+          <div
+            className="confetti"
+            style={{
+              '--hue': `${random(0, 360)}`,
+              '--sway-duration': `${random(2, 4)}s`,
+              '--sway-amount': `${random(-60, 60)}px`,
+              '--spin-amount': `${random(360, 1080)}deg`,
+            }}
+          />
+        </div>
       ))}
     </div>
   );
