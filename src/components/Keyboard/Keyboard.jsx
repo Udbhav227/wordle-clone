@@ -42,7 +42,12 @@ function Keyboard({ checkedGuesses, handleKeyPress }) {
   return (
     <div className="keyboard">
       {KEYBOARD_ROWS.map((row, rowIndex) => (
-        <div className="keyboard-row" key={rowIndex}>
+        <div
+          className={`keyboard-row row-${rowIndex}`}
+          key={rowIndex}
+        >
+          {rowIndex === 1 && <div className="key-spacer-half" />}
+
           {row.map((key) => {
             const status = letterStatuses[key];
             const isSpecialKey = key.length > 1;
@@ -59,6 +64,8 @@ function Keyboard({ checkedGuesses, handleKeyPress }) {
               </button>
             );
           })}
+
+          {rowIndex === 1 && <div className="key-spacer-half" />}
         </div>
       ))}
     </div>

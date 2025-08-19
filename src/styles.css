@@ -5,7 +5,6 @@
 */
 html {
 
-  --game-spacing: 16px;
   --header-height: 3rem;
 
   --color-success: hsl(150deg 70% 30%);
@@ -89,17 +88,16 @@ h1 {
 .game-wrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--game-spacing);
-  flex: 1;
+  gap: .5rem;
 
   justify-content: center;
   align-self: center;
 
   margin: 0 auto;
   width: 100%;
-  max-width: min(480px, 58vh, 100%);
+  max-width: min(440px, 58vh, 100%);
   min-width: 360px;
-  max-height: 800px;
+  max-height: 700px;
   padding: 1rem;
 }
 
@@ -121,7 +119,7 @@ h1 {
   place-content: center;
   aspect-ratio: 1 / 1;
   border: 2px solid #3a3a3c;
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: bold;
   text-transform: uppercase;
 
@@ -194,8 +192,14 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: auto;
-  max-width: 480px;
+  margin: auto auto 0;
+  padding-bottom: 8px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.key-spacer-half {
+  flex: 0.5;
 }
 
 .keyboard-row {
@@ -206,7 +210,8 @@ h1 {
 }
 
 .key {
-  font-size: clamp(0.85rem, 4vw, 1.3rem);
+  font-size: clamp(1.25rem, 4vw, 1.3rem);
+  text-transform: uppercase;
   font-weight: bold;
   border-radius: 4px;
   background-color: hsl(0deg 0% 50%);
@@ -445,8 +450,3 @@ header .side button {
   }
 }
 
-@media (max-width: 500px) {
-  .game-wrapper {
-    padding-top: 2.2rem;
-  }
-}
