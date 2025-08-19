@@ -1,6 +1,7 @@
 import React from 'react';
 import { range } from '../../utils';
 
+// The Cell component is fine as is.
 function Cell({ letter, status, isFlipped }) {
   const className = `cell ${isFlipped ? 'flipped' : ''}`;
   return (
@@ -15,7 +16,10 @@ function Guess({ value, isSubmitted }) {
   const [flipped, setFlipped] = React.useState([]);
 
   React.useEffect(() => {
-    if (!isSubmitted) return;
+    if (!isSubmitted) {
+      setFlipped([]);
+      return;
+    }
 
     const flipTiles = () => {
       range(5).forEach((index) => {
@@ -28,9 +32,12 @@ function Guess({ value, isSubmitted }) {
     flipTiles();
   }, [isSubmitted]);
 
+  // This block is for SUBMITTED guesses.
+  // 'value' is an array of objects: [{ letter, status }, ...]
   if (isSubmitted) {
     return (
-      <p className="guess">
+      // FIX 1: Changed <p> to <div> to allow nesting block elements.
+      <div className="guess">
         {value.map(({ letter, status }, index) => (
           <Cell
             key={index}
@@ -39,18 +46,21 @@ function Guess({ value, isSubmitted }) {
             isFlipped={flipped.includes(index)}
           />
         ))}
-      </p>
+      </div>
     );
-  }
+  }  
+  const tentativeGuess = range(5).map((num) => {
+      return value ? value[num] : undefined;
+  });
 
   return (
-    <p className="guess">
-      {range(5).map((num) => (
-        <div className="cell" key={num}>
-          {value ? value[num] : undefined}
+    <div className="guess">
+      {tentativeGuess.map((letter, index) => (
+        <div className="cell" key={index}>
+          {letter}
         </div>
       ))}
-    </p>
+    </div>
   );
 }
 

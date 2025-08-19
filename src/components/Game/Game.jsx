@@ -9,16 +9,34 @@ import GuessResults from './GuessResults';
 import Keyboard from '../Keyboard';
 import GameOverBanner from '../GameOverBanner';
 
-const answer = sample(WORDS).toUpperCase();
-console.info({ answer });
-
 function Game() {
+  // A unique key for each game session to force re-mounting components
+  const [gameKey, setGameKey] = React.useState(1);
+  
+  const [answer, setAnswer] = React.useState(() => sample(WORDS).toUpperCase());
   const [gameStatus, setGameStatus] = React.useState('running');
   const [guesses, setGuesses] = React.useState([]);
   const [tentativeGuess, setTentativeGuess] = React.useState('');
   const [keyboardCheckedGuesses, setKeyboardCheckedGuesses] = React.useState(
     []
   );
+
+  React.useEffect(() => {
+    console.info({ answer });
+  }, [answer]);
+  
+  // Resets all state for a new game
+  function handleRestart() {
+    const newAnswer = sample(WORDS).toUpperCase();
+    setAnswer(newAnswer);
+    setGuesses([]);
+    setGameStatus('running');
+    setTentativeGuess('');
+    setKeyboardCheckedGuesses([]);
+    
+    // Increment the key to force a full reset of child components
+    setGameKey(prevKey => prevKey + 1);
+  }
 
   function handleSubmitGuess() {
     if (tentativeGuess.length !== 5) {
@@ -83,7 +101,7 @@ function Game() {
       }
       if (/^[a-zA-Z]$/.test(key)) {
         if (tentativeGuess.length < 5) {
-          setTentativeGuess((prev) => prev + key.toUpperCase());
+          setTentativeGuess((prev) => prev.toUpperCase() + key.toUpperCase());
         }
       }
     }
@@ -93,7 +111,7 @@ function Game() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [tentativeGuess, gameStatus, guesses]);
+  }, [tentativeGuess, gameStatus, guesses, answer]);
 
   const checkedGuessesForGrid = React.useMemo(
     () => guesses.map((guess) => checkGuess(guess, answer)),
@@ -101,7 +119,7 @@ function Game() {
   );
 
   return (
-    <>
+    <React.Fragment key={gameKey}>
       <GuessResults
         guesses={checkedGuessesForGrid}
         tentativeGuess={tentativeGuess}
@@ -115,9 +133,10 @@ function Game() {
           gameStatus={gameStatus}
           numOfGuesses={guesses.length}
           answer={answer}
+          handleRestart={handleRestart}
         />
       )}
-    </>
+    </React.Fragment>
   );
 }
 
