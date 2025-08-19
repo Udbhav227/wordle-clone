@@ -20,9 +20,9 @@ export function useWordle() {
     const lastGuess = guesses[guesses.length - 1];
 
     if (lastGuess.toUpperCase() === answer) {
-      setGameStatus('won');
+      setTimeout(() => setGameStatus('won'), 1500);
     } else if (guesses.length >= NUM_OF_GUESSES_ALLOWED) {
-      setGameStatus('lost');
+      setTimeout(() => setGameStatus('lost'), 1500);
     }
   }, [guesses, answer]);
 

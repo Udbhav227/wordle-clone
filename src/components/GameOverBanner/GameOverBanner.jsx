@@ -1,14 +1,17 @@
 import React from 'react';
 import Confetti from '../Confetti/Confetti';
 
-function GameOverBanner({ gameStatus, numOfGuesses, answer, handleRestart }) {
+function GameOverBanner({ gameStatus, numOfGuesses, answer, handleRestart, isClosing }) {
   const isWinner = gameStatus === 'won';
   const definitionUrl = `https://www.merriam-webster.com/dictionary/${answer}`;
 
+  const bannerWrapperClassName = `banner-wrapper ${gameStatus} ${isClosing ? 'closing' : ''}`;
+  const bannerContentClassName = `banner-content ${isClosing ? 'closing' : ''}`;
+  
   return (
-    <div className={`banner-wrapper ${gameStatus}`}>
+    <div className={bannerWrapperClassName}>
       {isWinner && <Confetti />}
-      <div className="banner-content">
+      <div className={bannerContentClassName}>
         <h2>{isWinner ? 'Congratulations!' : 'Game Over!'}</h2>
         {isWinner ? (
           <p>
