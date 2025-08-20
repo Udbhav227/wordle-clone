@@ -39,7 +39,7 @@ button {
 .wrapper {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 header {
@@ -104,8 +104,8 @@ h1 {
 .guess {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 0.5rem;
-  margin: 0.5rem;
+  gap: 5px;
+  margin: 5px;
 }
 
 .cell {
